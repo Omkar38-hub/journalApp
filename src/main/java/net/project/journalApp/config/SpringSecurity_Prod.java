@@ -30,23 +30,16 @@ public class SpringSecurity_Prod {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
+                .cors() // <-- Enable CORS
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers(
-                        "/app/healthcheck",               // Health check
-                        "/auth/**",                 // Google auth endpoints
-                        "/swagger-ui/**",          // (Optional) Swagger UI
-                        "/v3/api-docs/**",          // (Optional) Swagger docs
-                        "/docs" // customized swagger docs
-                ).permitAll()
-                .anyRequest().authenticated();  // Secure all others
+                .antMatchers("/app/journal/**","/app/user/**").authenticated()
+                .antMatchers("/app/admin/**").hasRole("ADMIN")
+                .anyRequest().permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
