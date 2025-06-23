@@ -1,0 +1,52 @@
+<configuration>
+
+    <!-- Console appender: logs output to the console -->
+    <appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+
+        <!-- Encoder defines how log messages will be formatted -->
+        <encoder>
+            <pattern>
+                <!-- Log pattern: timestamp, thread, log level, logger name, and message -->
+                %d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- File appender: logs output to a file with rolling based on size and time -->
+    <appender name="myFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <!-- The base file name for logs -->
+        <file>
+            journalApp.log
+        </file>
+
+        <!-- Rolling policy for managing file rotation -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+
+            <!-- Log filename pattern with date and index for rolled files -->
+            <fileNamePattern>journalApp-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+
+            <!-- Maximum file size before rotation occurs -->
+            <maxFileSize>10MB</maxFileSize>
+
+            <!-- Maximum number of historical log files to keep -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+
+        <!-- Encoder defines the output format of log messages -->
+        <encoder>
+            <pattern>
+                %d{yy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger configuration -->
+    <root level="INFO">
+        <!-- Use console appender for root logger -->
+        <appender-ref ref="myConsoleAppender" />
+        <!-- Use file appender for root logger -->
+        <appender-ref ref="myFileAppender" />
+    </root>
+
+</configuration>

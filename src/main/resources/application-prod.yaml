@@ -1,0 +1,40 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: journal
+      auto-index-creation: true
+    redis:
+      host: ${REDIS_HOST}
+      port: 19579
+      password: ${REDIS_PASSWORD}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:  ${JAVA_EMAIL}
+    password: ${JAVA_EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+app:
+  cors:
+    allowed-origin: ${FRONTEND_HOST}
+google:
+  redirect-uri: ${BACKEND_HOST}
+server:
+  port: ${SERVER_PORT}
+  servlet:
+    context-path: /app
+weather:
+  api:
+    key: ${WEATHER_API_KEY}
