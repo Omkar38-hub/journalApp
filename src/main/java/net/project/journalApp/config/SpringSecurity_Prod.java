@@ -1,4 +1,5 @@
 package net.project.journalApp.config;
+import net.project.journalApp.filter.JwtFilter;
 import net.project.journalApp.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,14 +24,25 @@ public class SpringSecurity_Prod {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private JwtFilter jwtFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors() // <-- Enable CORS
+                .cors()
                 .and()
                 .authorizeHttpRequests()
-                .anyRequest().authenticated();
+                .antMatchers(
+                        "/app/healthcheck",               // Health check
+                        "/auth/**",                 // Google auth endpoints
+                        "/swagger-ui/**",          // (Optional) Swagger UI
+                        "/v3/api-docs/**",          // (Optional) Swagger docs
+                        "/docs" // customized swagger docs
+                ).permitAll()
+                .anyRequest().authenticated();  // Secure all others
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

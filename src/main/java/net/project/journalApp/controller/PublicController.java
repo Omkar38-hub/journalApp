@@ -42,7 +42,7 @@ public class PublicController {
 
     private static final PasswordEncoder passwordEncode = new BCryptPasswordEncoder();
 
-    @GetMapping("/check")
+    @GetMapping("/healthcheck")
     @Operation(summary = "Health check", description = "Returns OK if the service is running.")
     public String CheckHealth() {
         return "Ok";
