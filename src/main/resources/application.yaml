@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: dev
+
+logging:
+  level:
+    net:
+      project:
+        journalApp: TRACE
+    org.springframework.data.redis: DEBUG
+
+#debug: true
+springdoc:
+  swagger-ui:
+    path: /docs
