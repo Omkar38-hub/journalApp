@@ -26,7 +26,7 @@ public class SwaggerConfig {
                                 .description("Local development server");
 
                 Server prodServer = new Server()
-                                .url("https://api.yourdomain.com")
+                                .url("https://journal-backend-5vli.onrender.com/app/")
                                 .description("Production server");
 
                 return new OpenAPI()
@@ -34,7 +34,7 @@ public class SwaggerConfig {
                                                 .title("Journal App API")
                                                 .description("API documentation for the Journal App backend")
                                                 .version("1.0.0"))
-                                .servers(Arrays.asList(localServer, prodServer))
+                                .servers(Arrays.asList(prodServer,localServer))
                                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName)) // Global apply
                                 .components(new Components()
                                         .addSecuritySchemes(securitySchemeName,
